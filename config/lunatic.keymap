@@ -1,12 +1,12 @@
 /*
  * Cornix -> Lunatic dactyl-6x4-trackball ZMK keymap
  *
- * Notes:
- * - Layer 2 is Mouse/Scroll layer.
- * - Hold &mo 2, then move the trackball:
- *   - up/down = vertical scroll
- *   - left/right = horizontal scroll
- * - No custom layer #define aliases, so Keymap Editor should parse this better.
+ * Layer behavior:
+ * - Hold &mo 2 + trackball = vertical scroll
+ * - Hold &mo 3 + trackball = horizontal scroll
+ *
+ * Scroll speed:
+ * - Uses &zip_scroll_scaler 1 2, meaning roughly half speed.
  */
 
 #include <dt-bindings/zmk/input_transform.h>
@@ -23,7 +23,7 @@
 };
 
 &msc_input_listener {
-    input-processors = <&zip_scroll_scaler 2 1>;
+    input-processors = <&zip_scroll_scaler 1 2>;
 };
 
 &msc {
@@ -47,13 +47,44 @@
     flavor = "tap-preferred";
 };
 
+/ {
+    input_processors {
+        xy_to_horizontal_scroll_mapper: xy_to_horizontal_scroll_mapper {
+            compatible = "zmk,input-processor-code-mapper";
+            #input-processor-cells = <0>;
+            type = <INPUT_EV_REL>;
+
+            /*
+             * Horizontal scroll layer:
+             * - Trackball X -> horizontal wheel
+             * - Trackball Y -> horizontal wheel too
+             *
+             * Mapping Y too is intentional because your vertical scroll axis
+             * already works reliably, so this makes &mo 3 easier to test/use.
+             */
+            map = <
+                INPUT_REL_X INPUT_REL_HWHEEL
+                INPUT_REL_Y INPUT_REL_HWHEEL
+            >;
+        };
+    };
+};
+
 &trackball_listener {
-    scroller {
+    vertical_scroll {
         layers = <2>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
             <&zip_xy_to_scroll_mapper>,
-            <&zip_scroll_scaler 3 1>;
+            <&zip_scroll_scaler 1 2>;
+    };
+
+    horizontal_scroll {
+        layers = <3>;
+        input-processors =
+            <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
+            <&xy_to_horizontal_scroll_mapper>,
+            <&zip_scroll_scaler 1 2>;
     };
 };
 
@@ -82,10 +113,10 @@
         base_layer {
             display-name = "Base";
             bindings = <
-                &kp ESC    &kp Q     &kp W     &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P              &kp BSPC
-                &kp TAB    &kp A     &kp S     &kp D      &kp F      &kp G          &kp H      &kp J      &kp K      &kp L      &kp SEMI           &kp SQT
-                &kp LSHFT  &kp Z     &kp X     &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH           &kp PIPE
-                                      &kp SPACE &kp LEFT_CONTROL &kp LEFT_GUI &mo 1  &mkp MB1   &mo 2      &mo 3      &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp ENTER
+                &kp ESC    &kp Q     &kp W     &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
+                &kp TAB    &kp A     &kp S     &kp D      &kp F      &kp G          &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp SQT
+                &kp LSHFT  &kp Z     &kp X     &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp LS(BSLH)
+                                      &kp SPACE &kp LCTRL  &kp LGUI   &mo 1          &mkp MB1   &mo 2      &mo 3      &kp LBKT    &kp RBKT   &kp ENTER
             >;
             sensor-bindings = <&Scroll_D_U>, <&Scroll_D_U>;
         };
