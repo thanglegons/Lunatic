@@ -6,8 +6,9 @@
  * - Cornix/Vial file has 50 active positions; Lunatic default has 46 bindings.
  * - Main alpha/number/symbol/function layout is preserved as closely as possible.
  * - Extra Cornix side keys are folded into the available thumb / outer positions.
- * - Trackball scroll: tap the SCROLL key to toggle MOUSE layer; while MOUSE layer is active,
- *   moving the trackball sends scroll events instead of pointer movement. Tap SCROLL again to return.
+ * - Trackball scroll: hold the Base layer &mo 2 key; while layer 2 is active,
+ *   moving the trackball sends scroll events instead of pointer movement.
+ * - This version avoids custom #define aliases so Keymap Editor can parse it more easily.
  */
 
 #include <behaviors.dtsi>
@@ -16,18 +17,6 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <input/processors.dtsi>
 
-#define BASE  0
-#define SYM   1
-#define MOUSE 2
-#define FN    3
-#define OPT2  4
-
-#define ______ &trans
-#define XXXXX  &none
-#define SCROLL &tog MOUSE
-
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 900
 
 &mmv_input_listener {
     input-processors = <&zip_xy_scaler 2 1>;
@@ -72,14 +61,14 @@
 
 &msc_input_listener {
     speed_up {
-        layers = <MOUSE>;
+        layers = <2>;
         input-processors = <&zip_wheel_scaler 3 1>;
     };
 };
 
 &trackball_listener {
     scroller {
-        layers = <MOUSE>;
+        layers = <2>;
         input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>, <&zip_xy_to_scroll_mapper>;
     };
 };
@@ -114,7 +103,7 @@
              &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G        &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
              &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B        &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp UP
 //          |------------------------------ thumbs -------------------|    |------------------------------ thumbs -------------------|
-             &kp LCTRL &kp LGUI  &kp LALT  &mo SYM   &kp SPACE             &kp ENTER &mo MOUSE &mo FN    &kp LEFT  &kp RIGHT
+             &kp LCTRL &kp LGUI  &kp LALT  &mo 1   &kp SPACE             &kp ENTER &mo 2 &mo 3    &kp LEFT  &kp RIGHT
             >;
             sensor-bindings = <&Scroll_D_U>, <&Scroll_D_U>;
         };
@@ -123,9 +112,9 @@
             display-name = "Sym";
             bindings = <
              &kp ESC   &kp LS(N1) &kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)    &kp LS(N6) &kp LS(N7) &kp LS(N8) &kp LS(N9) &kp LS(N0) &kp LS(BSLH)
-             XXXXX     XXXXX      XXXXX      &kp LS(BSLH) &kp SEMI &kp MINUS     &kp EQUAL  &kp LS(EQUAL) &kp LBKT &kp RBKT &kp LS(SEMI) &kp LS(SQT)
-             XXXXX     XXXXX      XXXXX      XXXXX      &mkp MB2  &mkp MB1       &kp MINUS  &kp LS(MINUS) &kp LS(COMMA) &kp LS(DOT) &kp LS(FSLH) &kp GRAVE
-             XXXXX     XXXXX      XXXXX      XXXXX      XXXXX                 &kp BSPC  XXXXX     XXXXX      XXXXX      XXXXX
+             &none     &none      &none      &kp LS(BSLH) &kp SEMI &kp MINUS     &kp EQUAL  &kp LS(EQUAL) &kp LBKT &kp RBKT &kp LS(SEMI) &kp LS(SQT)
+             &none     &none      &none      &none      &mkp MB2  &mkp MB1       &kp MINUS  &kp LS(MINUS) &kp LS(COMMA) &kp LS(DOT) &kp LS(FSLH) &kp GRAVE
+             &none     &none      &none      &none      &none                 &kp BSPC  &none     &none      &none      &none
             >;
             sensor-bindings = <&Scroll_LR>, <&Scroll_LR>;
         };
@@ -134,9 +123,9 @@
             display-name = "Mouse";
             bindings = <
              &kp LS(GRAVE) &kp N1    &kp N2    &kp N3    &kp N4    &kp N5       &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp BSPC
-             XXXXX         &kp N4    &kp LS(LBKT) &kp LS(RBKT) &kp LS(LBKT) &kp LS(RBKT)  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &kp LBKT  &kp RBKT
-             XXXXX         XXXXX     &kp LBKT  &kp RBKT  &kp N9    &kp N0       &kp MINUS &kp LS(MINUS) &kp COMMA &kp DOT   &kp FSLH  &kp GRAVE
-             XXXXX         XXXXX     XXXXX     XXXXX     &kp SPACE             XXXXX     XXXXX     XXXXX     XXXXX     XXXXX
+             &none         &kp N4    &kp LS(LBKT) &kp LS(RBKT) &kp LS(LBKT) &kp LS(RBKT)  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &kp LBKT  &kp RBKT
+             &none         &none     &kp LBKT  &kp RBKT  &kp N9    &kp N0       &kp MINUS &kp LS(MINUS) &kp COMMA &kp DOT   &kp FSLH  &kp GRAVE
+             &none         &none     &none     &none     &kp SPACE             &none     &none     &none     &none     &none
             >;
             sensor-bindings = <&inc_dec_kp 0 0>, <&inc_dec_kp 0 0>;
         };
@@ -144,10 +133,10 @@
         fn_layer {
             display-name = "Fn";
             bindings = <
-             XXXXX     &kp F1    &kp F2    &kp F3    &kp F4    &kp F5       &kp F6    &kp F7    &kp F8    &kp F9    &kp F10   &kp F11
-             XXXXX     XXXXX     XXXXX     XXXXX     XXXXX     XXXXX        &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT XXXXX    XXXXX
-             XXXXX     XXXXX     XXXXX     XXXXX     XXXXX     XXXXX        XXXXX     XXXXX     XXXXX     XXXXX     XXXXX    XXXXX
-             XXXXX     XXXXX     XXXXX     XXXXX     XXXXX                 XXXXX     XXXXX     XXXXX     XXXXX     XXXXX
+             &none     &kp F1    &kp F2    &kp F3    &kp F4    &kp F5       &kp F6    &kp F7    &kp F8    &kp F9    &kp F10   &kp F11
+             &none     &none     &none     &none     &none     &none        &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &none    &none
+             &none     &none     &none     &none     &none     &none        &none     &none     &none     &none     &none    &none
+             &none     &none     &none     &none     &none                 &none     &none     &none     &none     &none
             >;
             sensor-bindings = <&inc_dec_kp 0 0>, <&inc_dec_kp 0 0>;
         };
@@ -155,10 +144,10 @@
         opt2_layer {
             display-name = "Opt2";
             bindings = <
-             XXXXX XXXXX XXXXX XXXXX XXXXX XXXXX    XXXXX XXXXX XXXXX XXXXX XXXXX XXXXX
-             XXXXX XXXXX XXXXX XXXXX XXXXX XXXXX    XXXXX XXXXX XXXXX XXXXX XXXXX XXXXX
-             XXXXX XXXXX XXXXX XXXXX XXXXX XXXXX    XXXXX XXXXX XXXXX XXXXX XXXXX XXXXX
-             XXXXX XXXXX XXXXX XXXXX XXXXX          XXXXX XXXXX XXXXX XXXXX XXXXX
+             &none &none &none &none &none &none    &none &none &none &none &none &none
+             &none &none &none &none &none &none    &none &none &none &none &none &none
+             &none &none &none &none &none &none    &none &none &none &none &none &none
+             &none &none &none &none &none          &none &none &none &none &none
             >;
         };
     };
