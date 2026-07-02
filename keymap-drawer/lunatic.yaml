@@ -37,11 +37,11 @@ layers:
   - {t: ., s: '>'}
   - {t: /, s: '?'}
   - {t: Sft+\, s: Sft+|}
-  - $$mdi:keyboard-space$$
+  - '&mkp MB1'
   - $$mdi:apple-keyboard-control$$
   - LGUI
   - Sym
-  - '&mkp MB1'
+  - $$mdi:keyboard-space$$
   - Mouse
   - Fn
   - {t: '[', s: '{'}
