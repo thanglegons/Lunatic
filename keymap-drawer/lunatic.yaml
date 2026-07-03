@@ -60,7 +60,7 @@ layers:
   - {t: Sft+9, s: Sft+(}
   - {t: Sft+0, s: Sft+)}
   - {t: Sft+\, s: Sft+|}
-  - {t: '$$mdi:minus-circle-outline$$', type: none}
+  - Gui+$$mdi:keyboard-tab$$
   - {t: A, h: '$$mdi:apple-keyboard-command$$'}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: D, h: '$$mdi:apple-keyboard-command$$'}
