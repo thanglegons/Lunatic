@@ -110,7 +110,7 @@
             display-name = "Sym";
             bindings = <
 &kp ESC        &kp LS(N1)  &kp LS(N2)  &kp LS(N3)  &kp LS(N4)  &kp LS(N5)  &kp LS(N6)  &kp LS(N7)     &kp LS(N8)     &kp LS(N9)   &kp LS(N0)    &kp LS(BSLH)
-&none          &kp LG(A)   &none       &kp LG(D)   &kp LG(F)   &kp MINUS   &kp EQUAL   &kp LS(EQUAL)  &kp LBKT       &kp RBKT     &kp LS(SEMI)  &kp LS(SQT)
+&kp LG(TAB)    &kp LG(A)   &none       &kp LG(D)   &kp LG(F)   &kp MINUS   &kp EQUAL   &kp LS(EQUAL)  &kp LBKT       &kp RBKT     &kp LS(SEMI)  &kp LS(SQT)
 &kp LA(LG(V))  &kp LG(Z)   &none       &kp LG(C)   &kp LG(V)   &kp LG(B)   &kp MINUS   &kp LS(MINUS)  &kp LS(COMMA)  &kp LS(DOT)  &kp LS(FSLH)  &kp GRAVE
                &none       &none       &mkp MB2    &none       &none       &kp BSPC    &none          &none          &none        &none
             >;
