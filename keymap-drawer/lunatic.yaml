@@ -37,13 +37,13 @@ layers:
   - {t: ., s: '>'}
   - {t: /, s: '?'}
   - {t: Sft+\, s: Sft+|}
-  - '&mkp MB1'
+  - $$mdi:keyboard-space$$
   - $$mdi:apple-keyboard-control$$
   - LGUI
   - Sym
-  - $$mdi:keyboard-space$$
+  - '&mkp MB1'
   - Mouse
-  - Fn
+  - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '[', s: '{'}
   - {t: ']', s: '}'}
   - {t: '$$mdi:keyboard-return$$', type: enter}
@@ -184,7 +184,7 @@ layers:
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
-  - {t: '$$mdi:minus-circle-outline$$', type: held}
+  - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
